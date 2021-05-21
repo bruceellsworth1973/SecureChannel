@@ -1,0 +1,21 @@
+{
+  "name": "securechannel",
+  "version": "1.2.1",
+  "description": "wrapper protocol extending raw websocket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Bruce Ellsworth",
+  "license": "ISC",
+  "dependencies": {
+    "helpers": "file:../HelperModule",
+    "path": "^0.12.7",
+    "ws": "^7.4.5"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
+  }
+}

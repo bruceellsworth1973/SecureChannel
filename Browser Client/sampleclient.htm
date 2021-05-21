@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<script type="text/javascript" src="//securechannel.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+		const LOGGING = true;
+		class Queue
+		{
+			// dynamic action queue framework
+			// add action(s) to top of queue
+			first(...actions)
+			{
+				return this.actions.unshift(...actions);
+			}
+			// add action(s) to bottom of queue
+			defer(...actions)
+			{
+				return this.actions.push(...actions);
+			}
+			// execute next queued entry
+			next()
+			{
+				if (0 < this.actions.length)
+				{
+					const action = this.actions.shift();
+					if ('function' === typeof action) {action();}
+				}
+			}
+			// allow reading of queue length
+			get length()
+			{
+				return this.actions.length;
+			}
+			// populate new queue with 0 or more actions
+			constructor(...actions)
+			{
+				this.actions = [...actions];
+			}
+		}
+		class Request extends Queue
+		{
+			// promise-based request handler extension for QUEUE class
+			process(query)
+			{
+				const settle = (path, response) => {
+					// clear busy flag and continue processing any queued requests in order of receipt
+					this.busy = false;
+					this.next();
+					// settle current request and return response
+					if ('function' === typeof path) {path(response);}
+				};
+				// request events temporarily hijack the dispatcher event stream to intercept result messages and errors
+				// other message types pass through seamlessly without interrupting request processing
+				return new Promise((resolve, reject) => {
+					// requests can only be processed serially
+					// push request on the stack if waiting for prior request to settle
+					if (this.busy) {return this.defer(() => this.process(query).then(resolve, reject));}
+					else
+					{
+						// block simultaneous requests while the current request is processing
+						this.busy = true;
+						// capture success or failure, whichever occurs first
+						this.dispatcher.events({result:r => settle(resolve, r), error:e => settle(reject, e)});
+						// initiate query
+						if (!query()) {return settle(reject, 'communication fault');}
+					}
+				});
+			}
+			constructor(dispatcher)
+			{
+				super();
+				this.dispatcher = dispatcher;
+				this.busy = false;
+			}
+		}
+		function log(...messages)
+		{
+			LOGGING && console.log(...messages);
+		}
+		function response(message)
+		{
+			if (this.timestamp)
+			{
+				log(this.timestamp, '>', 'response', message);
+				return {timestamp:this.timestamp, message};
+			}
+		}
+		function request(query)
+		{
+			log(time(), '<', 'request', query);
+			return queue.process(() => this.message('request', {query})).then(result => response.call({result}), error => response.call({error}));
+		}
+		const routes = {
+			connect(event)
+			{
+				log(event.timestamp, 'connection opened')
+				request('something');
+				request('something else');
+				// simulate socket disconnection
+				setTimeout(this.terminate, 5000);
+			},
+			up(event) {log(event.timestamp, 'connection up')},
+			down(event) {log(event.timestamp, 'connection down')},
+			error(event) {log(event.timestamp, event.reason)},
+			heartbeat(event) {log(event.timestamp, 'heartbeat received')}
+		};
+		// the SecureChannel server sits behind an nginx proxy, which maps all paths past video:443/archive2/api/* to video:3002/
+		const connection = {address:'video', port:443, path:'/archive2/api/websocket', enforceSSLVerification:false};
+		const channel = new SecureChannel(routes, 'browser').connect(connection);
+		const queue = new Request(channel);
+		const time = () => channel.time().toSQL();
+		</script>
+	</body>
+</html>
