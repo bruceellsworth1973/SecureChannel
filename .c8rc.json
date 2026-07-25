@@ -1,0 +1,7 @@
+{
+  "include": ["index.js", "utilities/substreamDuplex.js"],
+  "reporter": ["text", "text-summary"],
+  "all": true,
+  "clean": true,
+  "report-dir": "./coverage"
+}

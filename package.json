@@ -1,0 +1,42 @@
+{
+  "name": "securechannel",
+  "version": "4.0.1",
+  "description": "wrapper protocol extending raw websocket",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/run.js",
+    "test:coverage": "c8 node tests/run.js",
+    "test:coverage:check": "c8 --check-coverage --include 'utilities/substreamDuplex.js' --functions 100 --lines 100 --statements 100 --branches 95 node tests/substream-duplex.test.mjs",
+    "start": "node server.js"
+  },
+  "author": "Bruce Ellsworth",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./wrapper.mjs",
+      "require": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "wrapper.mjs"
+  ],
+  "dependencies": {
+    "deep-diff": "^1.0.2",
+    "dotenv": "^16.6.1",
+    "helpers": "file:../HelperModule",
+    "supports-color": "^9.4.0",
+    "ws": "^8.21.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8",
+    "utf-8-validate": "^5.0.10"
+  },
+  "devDependencies": {
+    "c8": "^11.0.0"
+  }
+}
