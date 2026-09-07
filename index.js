@@ -404,14 +404,20 @@ class Channel extends SecureChannel
 		return status;
 	}
 	get channels() {return this.controller?.channels;}
-	// returns false if any domain is not ready
-	get channelReady()
+ 	// returns false if any domain is not ready
+ 	get channelReady()
+ 	{
+ 		for (const ready of iterable(this.status, VALUES)) {if (!ready) return false;}
+ 		return true;
+ 	}
+ 	// set channelReady to any truthy value to refresh the onReady status and potentially trigger waiting functions
+	set channelReady(ready)
 	{
-		for (const ready of iterable(this.status, VALUES)) {if (!ready) return false;}
-		return true;
+		if (!ready) return;
+		this._ready_semaphore.status = this.channelReady;
+		this.controller.appReady = ready;
 	}
-	// set channelReady to any truthy value to refresh the onReady status and potentially trigger waiting functions
-	set channelReady(ready) {if (ready) {this._ready_semaphore.status = this.channelReady;}}
+	// provide a gate that can be awaited and opens when the channel is ready
 	get onReady() {return this._ready_semaphore.status;}
 	// broadcasts a message downward to every worker in every domain
 	messageAll(type, message) {for (const driver of iterable(this.drivers, VALUES)) {driver.messageAll(type, message);}}
@@ -1632,8 +1638,15 @@ class Controller
 		catch(error) {logger('error', error);}
 		return devices;
 	}
-	get appReady() {return this.appSemaphore.status}
-	set appReady(ready) {this.appSemaphore.status = ready}
+	// returns false if any channel is not ready
+	get appReady()
+	{
+		for (const {channelReady} of iterable(this.channels, VALUES)) {if (!channelReady) return false;}
+		return true;
+	}
+	// set appReady to any truthy value to refresh the onReady status and potentially trigger waiting functions
+	set appReady(ready) {this.appSemaphore.status = this.appReady;}
+	get onReady() {return this.appSemaphore.status}
 	get devices()
 	{
 		if (!this._devices) {this._devices = {};}
