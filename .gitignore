@@ -2,3 +2,8 @@ node_modules
 package-lock.json
 .env
 coverage
+ios/build
+ios/.build
+ios/.swiftpm
+ios/rust/target
+ios/rust/target-nightly

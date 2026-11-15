@@ -1,0 +1,22 @@
+[graph]
+all-features = true
+
+[advisories]
+yanked = "deny"
+unmaintained = "none"
+ignore = [
+    { id = "RUSTSEC-2023-0071", reason = "rsa via sspi/picky (RDP NLA): the timing attack needs a private-key decryption to time; the RDP client only encrypts and verifies with the server's public key. No fixed rsa release exists." },
+]
+
+[licenses]
+allow = ["MIT", "Apache-2.0", "Apache-2.0 WITH LLVM-exception", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Zlib",
+         "Unicode-3.0", "MPL-2.0", "LGPL-2.1", "LGPL-2.1-only", "LGPL-2.1-or-later", "GPL-2.0-or-later", "GPL-3.0-or-later", "CC0-1.0", "BSL-1.0", "0BSD"]
+confidence-threshold = 0.9
+
+[bans]
+multiple-versions = "deny"
+wildcards = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
