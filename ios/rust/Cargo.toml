@@ -1,0 +1,136 @@
+[workspace]
+resolver = "3"
+members = ["crates/securechannel-dialect", "crates/securechannel-dialect-c"]
+
+[workspace.package]
+edition = "2024"
+license = "ISC"
+authors = ["Bruce Ellsworth"]
+repository = "https://github.com/bruceellsworth1973/SecureChannel"
+readme = "../README.md"
+keywords = ["websocket", "securechannel", "protocol", "ios", "swift"]
+categories = ["network-programming"]
+
+[workspace.dependencies]
+securechannel-dialect = { path = "crates/securechannel-dialect" }
+serde_json = { version = "1.0.154", default-features = false, features = ["std"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = "symbols"
+
+[profile.dev]
+incremental = true
+
+[workspace.lints.rust]
+warnings = { level = "deny", priority = -2 }
+future_incompatible = { level = "deny", priority = -1 }
+keyword_idents = { level = "deny", priority = -1 }
+let_underscore = { level = "deny", priority = -1 }
+nonstandard_style = { level = "deny", priority = -1 }
+refining_impl_trait = { level = "deny", priority = -1 }
+rust_2018_compatibility = { level = "deny", priority = -1 }
+rust_2018_idioms = { level = "deny", priority = -1 }
+rust_2021_compatibility = { level = "deny", priority = -1 }
+rust_2024_compatibility = { level = "deny", priority = -1 }
+unknown_or_malformed_diagnostic_attributes = { level = "deny", priority = -1 }
+unused = { level = "deny", priority = -1 }
+deprecated_safe = { level = "deny", priority = -1 }
+absolute_paths_not_starting_with_crate = "forbid"
+ambiguous_negative_literals = "forbid"
+closure_returning_async_block = "forbid"
+dead_code_pub_in_binary = "allow"
+deprecated_in_future = "forbid"
+deprecated_safe_2024 = "forbid"
+deref_into_dyn_supertrait = "forbid"
+edition_2024_expr_fragment_specifier = "forbid"
+elided_lifetimes_in_paths = "forbid"
+explicit_outlives_requirements = "forbid"
+ffi_unwind_calls = "forbid"
+if_let_rescope = "forbid"
+impl_trait_overcaptures = "forbid"
+impl_trait_redundant_captures = "forbid"
+keyword_idents_2018 = "forbid"
+keyword_idents_2024 = "forbid"
+let_underscore_drop = "forbid"
+linker_info = "forbid"
+macro_use_extern_crate = "forbid"
+meta_variable_misuse = "forbid"
+missing_copy_implementations = "forbid"
+missing_debug_implementations = "forbid"
+missing_docs = "allow"
+missing_unsafe_on_extern = "forbid"
+non_ascii_idents = "forbid"
+raw_borrows_via_references = "forbid"
+redundant_imports = "forbid"
+redundant_lifetimes = "forbid"
+rust_2021_incompatible_closure_captures = "forbid"
+rust_2021_incompatible_or_patterns = "forbid"
+rust_2021_prefixes_incompatible_syntax = "forbid"
+rust_2021_prelude_collisions = "forbid"
+rust_2024_guarded_string_incompatible_syntax = "forbid"
+rust_2024_incompatible_pat = "forbid"
+rust_2024_prelude_collisions = "forbid"
+single_use_lifetimes = "forbid"
+tail_expr_drop_order = "forbid"
+trivial_casts = "forbid"
+trivial_numeric_casts = "forbid"
+unit_bindings = "forbid"
+unnameable_types = "forbid"
+unreachable_pub = "forbid"
+unsafe_attr_outside_unsafe = "forbid"
+unsafe_code = "forbid"
+unsafe_op_in_unsafe_fn = "forbid"
+unstable_features = "forbid"
+unused_crate_dependencies = "allow"
+unused_extern_crates = "forbid"
+unused_import_braces = "forbid"
+unused_lifetimes = "forbid"
+unused_macro_rules = "forbid"
+unused_qualifications = "forbid"
+unused_results = "forbid"
+variant_size_differences = "forbid"
+
+[workspace.lints.clippy]
+allow_attributes = "forbid"
+allow_attributes_without_reason = "forbid"
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+cargo = { level = "deny", priority = -1 }
+restriction = { level = "deny", priority = -1 }
+blanket_clippy_restriction_lints = "allow"
+implicit_return = "allow"
+exhaustive_structs = "allow"
+exhaustive_enums = "allow"
+let_underscore_untyped = "allow"
+little_endian_bytes = "allow"
+big_endian_bytes = "allow"
+missing_trait_methods = "allow"
+pattern_type_mismatch = "allow"
+unneeded_field_pattern = "allow"
+missing_docs_in_private_items = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+missing_safety_doc = "allow"
+pub_with_shorthand = "allow"
+question_mark_used = "allow"
+redundant_pub_crate = "allow"
+self_named_module_files = "allow"
+semicolon_outside_block = "allow"
+separated_literal_suffix = "allow"
+single_call_fn = "allow"
+float_arithmetic = "allow"
+
+[workspace.lints.rustdoc]
+broken_intra_doc_links = "forbid"
+private_intra_doc_links = "forbid"
+invalid_codeblock_attributes = "forbid"
+invalid_html_tags = "forbid"
+invalid_rust_codeblocks = "forbid"
+bare_urls = "forbid"
+unescaped_backticks = "forbid"
+redundant_explicit_links = "forbid"
+missing_crate_level_docs = "allow"

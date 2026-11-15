@@ -1,0 +1,17 @@
+[package]
+name = "securechannel-dialect"
+description = "The SecureChannel client dialect without I/O: frames, envelopes, handshake, calls, streams"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+readme.workspace = true
+keywords.workspace = true
+categories.workspace = true
+publish = false
+
+[dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

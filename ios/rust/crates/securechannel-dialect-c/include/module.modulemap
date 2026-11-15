@@ -1,0 +1,4 @@
+module SecureChannelDialect {
+    header "securechannel_dialect.h"
+    export *
+}
