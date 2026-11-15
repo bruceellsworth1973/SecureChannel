@@ -1,6 +1,7 @@
 RUST := rust
 RUST_DIR := $(RUST)
-HEADERS := $(RUST)/crates/securechannel-dialect-c/include
+SOURCE_HEADERS := $(RUST)/crates/securechannel-dialect-c/include
+HEADERS := build/headers
 LIBRARY := libsecurechannel_dialect_c.a
 FRAMEWORK := build/SecureChannelDialect.xcframework
 STABLE_TARGETS := aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios aarch64-apple-tvos aarch64-apple-tvos-sim aarch64-apple-darwin x86_64-apple-darwin
@@ -25,7 +26,8 @@ libraries:
 	cd $(RUST) && for target in $(NIGHTLY_TARGETS); do $(DEPLOYMENT) cargo +nightly build --release -Z build-std=std -p securechannel-dialect-c --target $$target --target-dir target-nightly || exit 1; done
 
 $(FRAMEWORK): libraries
-	mkdir -p build/ios-simulator build/tvos-simulator build/macos
+	mkdir -p build/ios-simulator build/tvos-simulator build/macos build/headers/SecureChannelDialect
+	cp $(SOURCE_HEADERS)/securechannel_dialect.h $(SOURCE_HEADERS)/module.modulemap build/headers/SecureChannelDialect/
 	lipo -create $(call stable,aarch64-apple-ios-sim) $(call stable,x86_64-apple-ios) -output build/ios-simulator/$(LIBRARY)
 	lipo -create $(call stable,aarch64-apple-tvos-sim) $(call nightly,x86_64-apple-tvos) -output build/tvos-simulator/$(LIBRARY)
 	lipo -create $(call stable,aarch64-apple-darwin) $(call stable,x86_64-apple-darwin) -output build/macos/$(LIBRARY)
