@@ -11,7 +11,7 @@ categories.workspace = true
 publish = false
 
 [lib]
-name = "securechannel_dialect"
+name = "securechannel_dialect_c"
 doc = false
 crate-type = ["staticlib", "rlib"]
 

@@ -1,7 +1,7 @@
 RUST := rust
 RUST_DIR := $(RUST)
 HEADERS := $(RUST)/crates/securechannel-dialect-c/include
-LIBRARY := libsecurechannel_dialect.a
+LIBRARY := libsecurechannel_dialect_c.a
 FRAMEWORK := build/SecureChannelDialect.xcframework
 STABLE_TARGETS := aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios aarch64-apple-tvos aarch64-apple-tvos-sim aarch64-apple-darwin x86_64-apple-darwin
 NIGHTLY_TARGETS := x86_64-apple-tvos

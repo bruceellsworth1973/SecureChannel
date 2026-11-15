@@ -81,7 +81,7 @@ impl Dialect {
             return key;
         }
         let mut request = Map::new();
-        let _ = request.insert(String::from("command"), json!(command));
+        drop(request.insert(String::from("command"), json!(command)));
         match serde_json::from_str::<Value>(arguments) {
             Ok(Value::Object(named)) => request.extend(named),
             Ok(Value::Null) => {}
@@ -96,7 +96,7 @@ impl Dialect {
                 return key;
             }
         }
-        let _ = self.calls.insert(key, command.to_owned());
+        drop(self.calls.insert(key, command.to_owned()));
         self.send("request", &json!({ "key": key, "request": request }));
         key
     }

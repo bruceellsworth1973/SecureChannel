@@ -76,7 +76,7 @@ impl StreamIndex {
 
     pub(crate) fn unwire(&mut self, stream: &str) -> bool {
         self.uid_by_stream.remove(stream).is_some_and(|uid| {
-            let _ = self.stream_by_uid.remove(&uid);
+            drop(self.stream_by_uid.remove(&uid));
             true
         })
     }
@@ -92,9 +92,9 @@ impl StreamIndex {
             return false;
         }
         if let Some(stale) = previous {
-            let _ = self.stream_by_uid.remove(&stale);
+            drop(self.stream_by_uid.remove(&stale));
         }
-        let _ = self.stream_by_uid.insert(uid, stream.to_owned());
+        drop(self.stream_by_uid.insert(uid, stream.to_owned()));
         previous.is_none()
     }
 }

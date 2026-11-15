@@ -13,7 +13,7 @@ stream relay all stay on the server, and the Apple client receives their results
 
 - **The dialect** is one Rust library, `securechannel-dialect` (`rust/crates/securechannel-dialect`): the frame
   codec, the envelopes, the handshake, the transaction table, the stream index and the reconnect timing. It does no
-  I/O. It is reached from Swift through a C ABI (`rust/crates/securechannel-dialect-c`, `include/securechannel_dialect.h`),
+  I/O. It is reached from Swift through a C ABI (`rust/crates/securechannel-dialect-c`: `libsecurechannel_dialect_c.a`, `include/securechannel_dialect.h`),
   the one boundary crate (`BOUNDARY.md`), built into `build/SecureChannelDialect.xcframework`.
 - **The transport** is Apple's own: `URLSessionWebSocketTask` (TLS, the system trust store, cookies from
   `HTTPCookieStorage`, answering the server's WebSocket pings), timers as Swift tasks, logging through `os.Logger`
